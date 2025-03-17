@@ -3,7 +3,7 @@
 SCRIPT_ROOT=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 BUILD_ROOT=$SCRIPT_ROOT/src/build
 
-EMACS_VER=${1:-27.2}
+EMACS_VER=27.2
 EMACS_SRC=emacs-${EMACS_VER}
 EMACS_PREFIX=/usr/local/${EMACS_SRC}
 EMACS_OPT="--with-modules"
@@ -36,7 +36,7 @@ build() {
     ../configure --prefix=${EMACS_PREFIX} ${EMACS_OPT}
     make -j4
     sudo make install
-    echo "//Install emacs binary to /usr/bin/"
+    echo "Install emacs binary to /usr/bin/"
     sudo ln -sfvT /usr/local/${EMACS_SRC}/bin/emacs-${EMACS_VER} /usr/bin/emacs${EMACS_VER}
     sudo ln -sfvT /usr/bin/emacs${EMACS_VER} /usr/bin/emacs
     popd
