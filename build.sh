@@ -17,7 +17,9 @@ dep() {
     sudo apt install -y libxaw7-dev libncurses5-dev libgtk2.0-dev librsvg2-dev libgconf2-dev
     sudo apt install -y libm17n-dev libgnutls28-dev libselinux1-dev libdbus-1-dev
     echo "Install build deps done"
+}
 
+tool() {
     sudo apt install -y cscope
     sudo apt install -y emacs-bin-common  # etags
     sudo apt install -y texinfo
@@ -53,13 +55,16 @@ clean() {
 usage() {
     app=$(basename $0)
     cat <<EOF
-$app {dep|build|-b|clean|-c}
+$app {dep|-d|tool|-t|build|-b|clean|-c}
 EOF
 }
 
 case $1 in
-    dep )
+    dep|-d )
         dep
+        ;;
+    tool|-t )
+        tool
         ;;
     build|-b )
         build
