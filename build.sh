@@ -34,14 +34,13 @@ tool() {
         ubuntu|debian )
             echo "Install on $ID"
             sudo apt install -y cscope
-            sudo apt install -y emacs-bin-common  # etags
             sudo apt install -y texinfo
             sudo apt install -y markdown pandoc
             sudo apt install -y w3m
             sudo apt install -y silversearcher-ag ripgrep
             sudo apt install -y socat
             sudo apt install -y perl-doc
-            sudo apt install -y ccls
+            sudo apt install -y ccls clangd
             ;;
         * )
             echo "Unsupport $ID"
@@ -50,15 +49,21 @@ tool() {
     echo "Install emacs tools done"
 }
 
+bin() {
+    echo "Install emacs binary to /usr/bin/"
+    sudo ln -sfvT /usr/local/${EMACS_SRC}/bin/emacs-${EMACS_VER} /usr/bin/emacs${EMACS_VER}
+    sudo ln -sfvT /usr/bin/emacs${EMACS_VER} /usr/bin/emacs
+    sudo ln -sfvT /usr/local/${EMACS_SRC}/bin/emacsclient /usr/bin/emacsclient
+    sudo ln -sfvT /usr/local/${EMACS_SRC}/bin/etags /usr/bin/etags
+    echo "Install bin done"
+}
+
 build() {
     mkdir -p $BUILD_ROOT
     pushd $BUILD_ROOT
     ../configure --prefix=${EMACS_PREFIX} ${EMACS_OPT}
     make -j4
     sudo make install
-    echo "Install emacs binary to /usr/bin/"
-    sudo ln -sfvT /usr/local/${EMACS_SRC}/bin/emacs-${EMACS_VER} /usr/bin/emacs${EMACS_VER}
-    sudo ln -sfvT /usr/bin/emacs${EMACS_VER} /usr/bin/emacs
     popd
     echo "Build done"
 }
@@ -74,7 +79,7 @@ clean() {
 usage() {
     app=$(basename $0)
     cat <<EOF
-Usage: $app {dep|-d|tool|-t|build|-b|clean|-c|all|-a}
+Usage: $app {dep|-d|tool|-t|build|-b|bin|clean|-c|all|-a}
 EOF
 }
 
@@ -87,6 +92,10 @@ case $1 in
         ;;
     build|-b )
         build
+        bin
+        ;;
+    bin )
+        bin
         ;;
     clean|-c )
         clean
@@ -95,6 +104,7 @@ case $1 in
         dep
         tool
         build
+        bin
         clean
         ;;
     * )
