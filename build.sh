@@ -67,7 +67,7 @@ build() {
     ./autogen.sh
     popd
 
-    echo "Build emacs"
+    echo "Build emacs-${EMACS_VER}"
     mkdir -p $BUILD_ROOT
     pushd $BUILD_ROOT
     ../configure --prefix=${EMACS_PREFIX} ${EMACS_OPT}
