@@ -64,7 +64,8 @@ build() {
 }
 
 clean() {
-    pushd $BUILD_ROOT
+    pushd $SCRIPT_ROOT
+    git reset --hard
     git clean -dfx
     popd
     echo "Clean done"
