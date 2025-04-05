@@ -10,7 +10,7 @@ EMACS_SRC=emacs-${EMACS_VER}
 EMACS_PREFIX=/usr/local/${EMACS_SRC}
 EMACS_OPT="--with-modules"
 
-dep() {
+install_dep() {
     case $ID in
         ubuntu|debian )
             echo "Install on $ID"
@@ -29,7 +29,7 @@ dep() {
     echo "Install build deps done"
 }
 
-tool() {
+install_tool() {
     case $ID in
         ubuntu|debian )
             echo "Install on $ID"
@@ -49,7 +49,7 @@ tool() {
     echo "Install emacs tools done"
 }
 
-bin() {
+install_bin() {
     target=/usr/bin
     echo "Install emacs bin to $target"
     sudo ln -sfvT $EMACS_PREFIX/bin/emacs-${EMACS_VER} $target/emacs${EMACS_VER}
@@ -66,7 +66,7 @@ build() {
     ../configure --prefix=${EMACS_PREFIX} ${EMACS_OPT}
     make -j4
     sudo make install
-    bin
+    install_bin
     popd
     echo "Build done"
 }
@@ -82,29 +82,29 @@ clean() {
 usage() {
     app=$(basename $0)
     cat <<EOF
-Usage: $app {dep|tool|-t|build|-b|bin|clean|-c|all|-a}
+Usage: $app {dep|-d|tool|-t|build|-b|bin|clean|-c|all|-a}
 EOF
 }
 
 case $1 in
-    dep )
-        dep
+    dep|-d )
+        install_dep
         ;;
     tool|-t )
-        tool
+        install_tool
         ;;
     build|-b )
         build
         ;;
     bin )
-        bin
+        install_bin
         ;;
     clean|-c )
         clean
         ;;
     all|-a )
-        dep
-        tool
+        install_dep
+        install_tool
         build
         clean
         ;;
