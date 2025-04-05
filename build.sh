@@ -50,11 +50,13 @@ tool() {
 }
 
 bin() {
-    echo "Install emacs binary to /usr/bin/"
-    sudo ln -sfvT /usr/local/${EMACS_SRC}/bin/emacs-${EMACS_VER} /usr/bin/emacs${EMACS_VER}
-    sudo ln -sfvT /usr/bin/emacs${EMACS_VER} /usr/bin/emacs
-    sudo ln -sfvT /usr/local/${EMACS_SRC}/bin/emacsclient /usr/bin/emacsclient
-    sudo ln -sfvT /usr/local/${EMACS_SRC}/bin/etags /usr/bin/etags
+    target=/usr/bin
+    echo "Install emacs bin to $target"
+    sudo ln -sfvT $EMACS_PREFIX/bin/emacs-${EMACS_VER} $target/emacs${EMACS_VER}
+    sudo ln -sfvT $target/emacs${EMACS_VER} $target/emacs
+    echo "Install emacs tool to $target"
+    sudo ln -sfvT $EMACS_PREFIX/bin/emacsclient $target/emacsclient
+    sudo ln -sfvT $EMACS_PREFIX/bin/etags $target/etags
     echo "Install bin done"
 }
 
@@ -64,6 +66,7 @@ build() {
     ../configure --prefix=${EMACS_PREFIX} ${EMACS_OPT}
     make -j4
     sudo make install
+    bin
     popd
     echo "Build done"
 }
@@ -79,12 +82,12 @@ clean() {
 usage() {
     app=$(basename $0)
     cat <<EOF
-Usage: $app {dep|-d|tool|-t|build|-b|bin|clean|-c|all|-a}
+Usage: $app {dep|tool|-t|build|-b|bin|clean|-c|all|-a}
 EOF
 }
 
 case $1 in
-    dep|-d )
+    dep )
         dep
         ;;
     tool|-t )
@@ -92,7 +95,6 @@ case $1 in
         ;;
     build|-b )
         build
-        bin
         ;;
     bin )
         bin
@@ -104,7 +106,6 @@ case $1 in
         dep
         tool
         build
-        bin
         clean
         ;;
     * )
