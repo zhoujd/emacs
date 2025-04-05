@@ -73,7 +73,7 @@ clean() {
 usage() {
     app=$(basename $0)
     cat <<EOF
-$app {dep|-d|tool|-t|build|-b|clean|-c}
+Usage: $app {dep|-d|tool|-t|build|-b|clean|-c|all|-a}
 EOF
 }
 
@@ -88,6 +88,12 @@ case $1 in
         build
         ;;
     clean|-c )
+        clean
+        ;;
+    all|-a )
+        dep
+        tool
+        build
         clean
         ;;
     * )
