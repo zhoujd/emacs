@@ -1,7 +1,8 @@
 #!/bin/bash
 
 SCRIPT_ROOT=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
-BUILD_ROOT=$SCRIPT_ROOT/src/build
+SRC_ROOT=$SCRIPT_ROOT/src
+BUILD_ROOT=$SRC_ROOT/build
 
 . /etc/os-release
 
@@ -61,6 +62,12 @@ install_bin() {
 }
 
 build() {
+    echo "Build run autogen.sh"
+    pushd $SRC_ROOT
+    ./autogen.sh
+    popd
+
+    echo "Build emacs"
     mkdir -p $BUILD_ROOT
     pushd $BUILD_ROOT
     ../configure --prefix=${EMACS_PREFIX} ${EMACS_OPT}
@@ -73,7 +80,6 @@ build() {
 
 clean() {
     pushd $SCRIPT_ROOT
-    git reset --hard
     git clean -dfx
     popd
     echo "Clean done"
