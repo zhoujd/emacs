@@ -69,7 +69,6 @@ build() {
     pushd $SRC_ROOT
     ./autogen.sh
     popd
-
     echo "Build emacs-${EMACS_VER}"
     mkdir -p $BUILD_ROOT
     pushd $BUILD_ROOT
