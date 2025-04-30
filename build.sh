@@ -9,7 +9,10 @@ BUILD_ROOT=$SRC_ROOT/build
 EMACS_VER=27.2
 EMACS_SRC=emacs-${EMACS_VER}
 EMACS_PREFIX=/usr/local/${EMACS_SRC}
-EMACS_OPT="--with-modules"
+EMACS_OPT=(
+    --with-modules
+    --with-x-toolkit=lucid
+)
 
 install_dep() {
     case $ID in
@@ -70,7 +73,7 @@ build() {
     echo "Build emacs-${EMACS_VER}"
     mkdir -p $BUILD_ROOT
     pushd $BUILD_ROOT
-    ../configure --prefix=${EMACS_PREFIX} ${EMACS_OPT}
+    ../configure --prefix=${EMACS_PREFIX} ${EMACS_OPT[@]}
     make -j4
     sudo make install
     install_bin
