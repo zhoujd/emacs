@@ -73,8 +73,8 @@ build() {
     echo "Build emacs-${EMACS_VER}"
     mkdir -p $BUILD_ROOT
     pushd $BUILD_ROOT
-    ../configure --prefix=${EMACS_PREFIX} ${EMACS_OPT[@]}
-    make -j4
+    $SRC_ROOT/configure --prefix=${EMACS_PREFIX} ${EMACS_OPT[@]}
+    make -j8
     sudo make install
     install_bin
     popd
