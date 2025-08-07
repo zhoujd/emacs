@@ -57,9 +57,7 @@ install_tool() {
 install_bin() {
     target=/usr/local/bin
     echo "Install emacs bin to $target"
-    sudo ln -sfvT $EMACS_PREFIX/bin/emacs-${EMACS_VER} $target/emacs${EMACS_VER}
-    sudo ln -sfvT $target/emacs${EMACS_VER} $target/emacs
-    echo "Install emacs tool to $target"
+    sudo ln -sfvT $EMACS_PREFIX/bin/emacs $target/emacs
     sudo ln -sfvT $EMACS_PREFIX/bin/emacsclient $target/emacsclient
     sudo ln -sfvT $EMACS_PREFIX/bin/etags $target/etags
     echo "Install bin done"
