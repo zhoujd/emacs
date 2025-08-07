@@ -10,6 +10,7 @@ EMACS_VER=27.2
 EMACS_SRC=emacs-${EMACS_VER}
 EMACS_PREFIX=/opt/zach/${EMACS_SRC}
 EMACS_OPT=(
+    --prefix=${EMACS_PREFIX}
     --with-modules
     --with-x-toolkit=lucid
 )
@@ -72,7 +73,7 @@ build() {
     echo "Build emacs-${EMACS_VER}"
     mkdir -p $BUILD_ROOT
     pushd $BUILD_ROOT
-    $SRC_ROOT/configure --prefix=${EMACS_PREFIX} ${EMACS_OPT[@]}
+    $SRC_ROOT/configure ${EMACS_OPT[@]}
     make -j8
     sudo make install
     install_bin
