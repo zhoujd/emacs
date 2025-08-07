@@ -8,7 +8,7 @@ BUILD_ROOT=$SRC_ROOT/build
 
 EMACS_VER=27.2
 EMACS_SRC=emacs-${EMACS_VER}
-EMACS_PREFIX=/usr/local/${EMACS_SRC}
+EMACS_PREFIX=/opt/zach/${EMACS_SRC}
 EMACS_OPT=(
     --with-modules
     --with-x-toolkit=lucid
@@ -54,7 +54,7 @@ install_tool() {
 }
 
 install_bin() {
-    target=/usr/bin
+    target=/usr/local/bin
     echo "Install emacs bin to $target"
     sudo ln -sfvT $EMACS_PREFIX/bin/emacs-${EMACS_VER} $target/emacs${EMACS_VER}
     sudo ln -sfvT $target/emacs${EMACS_VER} $target/emacs
